@@ -2,6 +2,7 @@ from typing import Tuple
 
 
 def main():
+    # I'm not using num2words cause I'm crazy like that
     words = {
         "0": "zero",
         "1": "one",
@@ -34,11 +35,9 @@ def main():
             time_string = time_string.replace(".", ":")
         parts = time_string.split(":")
 
-        hours = parts[0]
-        mins = parts[1][:-2]
-        am_pm = parts[1][-2:]
+        hours, mins, am_pm = parts[0], parts[1][:-2], parts[1][-2:]
 
-        if hours == "12" and am_pm == "AM":
+        if am_pm == "AM" and hours == "12":
             hours = "0"
         elif am_pm == "PM" and hours != "12":
             hours = str(int(hours) + 12)
@@ -49,27 +48,29 @@ def main():
     def hours_string_to_words(hours: str) -> str:
         if int(hours) == 0:
             return "zero"
+
         elif 10 <= int(hours) <= 19:
             return words[hours]
-        else:
-            hours_tens = str(int(hours[0]) * 10)
-            return f"{words[hours_tens]} {words[hours[1]]}"
+
+        hours_tens = str(int(hours[0]) * 10)
+        return f"{words[hours_tens]} {words[hours[1]]}"
 
     def mins_string_to_words(mins: str) -> str:
         if int(mins) == 0:
             return "hundred hours"
+
         elif 10 <= int(mins) <= 19:
             return words[mins]
-        else:
-            mins_tens = str(int(mins[0]) * 10)
-            return f"{words[mins_tens]} {words[mins[1]]}"
+
+        mins_tens = str(int(mins[0]) * 10)
+        return f"{words[mins_tens]} {words[mins[1]]}"
 
     # THIS IS THE SOLUTION !!1!
     def military_time_conversion(time_string: str) -> str:
-        hours_string, mins_string = string_to_parts(time_string=time_string)
-        hours_words = hours_string_to_words(hours_string)
-        mins_words = mins_string_to_words(mins_string)
-        return f"{hours_words} {mins_words}"
+        h_str, m_str = string_to_parts(time_string)
+        h_words = hours_string_to_words(h_str)
+        m_words = mins_string_to_words(m_str)
+        return f"{h_words} {m_words}"
 
     # tests
     def test():
