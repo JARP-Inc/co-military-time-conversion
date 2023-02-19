@@ -31,10 +31,11 @@ def main():
     }
 
     def string_to_parts(time_string: str) -> Tuple[str, str]:
-        if "." in time_string:
+        if not "." in time_string and not ":" in time_string:
+            time_string = f"{time_string[:-2]}:00{time_string[-2:]}"
+        elif "." in time_string:
             time_string = time_string.replace(".", ":")
         parts = time_string.split(":")
-
         hours, mins, am_pm = parts[0], parts[1][:-2], parts[1][-2:]
 
         if am_pm == "AM" and hours == "12":
@@ -85,6 +86,12 @@ def main():
             "11:22AM",
             "5:06PM",
             "4.59AM",
+            "12AM",
+            "7PM",
+            "5AM",
+            "9PM",
+            "10AM",
+            "12PM",
         ]
         for case in test_cases:
             military_time = military_time_conversion(case)
